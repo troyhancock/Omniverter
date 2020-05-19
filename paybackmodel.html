@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<!--<meta http-equiv="refresh" content="5" > -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Omniverter Stoppages Calculator</title>
+		
+	<script src="plotly.js"></script>
+	
+<style>
+* {
+    box-sizing: border-box;
+	-webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+    color-adjust: exact !important;                 /*Firefox*/
+}
+
+h1 {
+    font-size: 25px;
+	text-align: left;
+	margin-bottom: 0;
+}
+
+h2 {
+    font-size: 20px;
+	text-align: left;
+}
+
+header {
+margin-top: 0px;
+padding-top: 0px;
+padding-bottom: 0px;
+margin-bottom: 0px;
+}
+
+header > h2 { display: inline-block; }
+
+header span { 
+margin-left: 20px; 
+margin-top: 0px;
+padding-top: 0px;
+padding-bottom: 0px;
+}
+
+body {
+    font-size: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	 min-width:1800px;
+	 width: auto !important;
+	 width:1500px;   
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 33.33%;
+    margin-top: 0;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+     height: 100px;  /*Should be removed. Only for demonstration */
+}
+
+.modalColumn {
+    float: left;
+    width: 35%;
+    margin-top: 0;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+     
+}
+
+.modalInputBoxColumn {
+    float: left;
+    width: 15%;
+    margin-top: 0;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+     
+}
+
+.parameterColumn {
+    float: left;
+	//text-align: right;
+	text-align: left;
+	width: 12%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+       /* height: 50px;Should be removed. Only for demonstration */
+}
+
+.parameterMiddleColumn {
+    float: left;
+	//text-align: right;
+	text-align: left;
+	width: 15%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+       /* height: 50px;Should be removed. Only for demonstration */
+}
+
+.parameterBlankColumn {
+    float: left;
+	//text-align: right;
+	text-align: left;
+	opacity: 0;
+	width: 12%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+       /* height: 50px;Should be removed. Only for demonstration */
+}
+
+.parameterBoldColumn {
+    float: left;
+	text-align: right;
+	//text-align: left;
+	width: 15%;
+	font-weight: bold;
+    margin-top:10;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 10px;
+       /* height: 50px;Should be removed. Only for demonstration */
+}
+
+.parameterCategoryColumn {
+    float: left;
+	text-align: left;
+	font-weight: bold;
+	width: 12%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 0px;
+       /* height: 50px;Should be removed. Only for demonstration */
+}
+
+.parameterMiddleCategoryColumn {
+    float: left;
+	text-align: left;
+	font-weight: bold;
+	width: 15%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 0px;
+       /* height: 50px;Should be removed. Only for demonstration */
+}
+
+.sliderProgressColumn {
+    float: left;
+	text-align: right;
+	font-weight: bold;
+    width: 10%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+       /* height: 50px; Should be removed. Only for demonstration */
+}
+
+.smallerProgressColumn {
+    float: left;
+	text-align: right;
+	font-weight: bold;
+    width: 9%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+       /* height: 50px; Should be removed. Only for demonstration */
+}
+
+.sliderProgressReplacementColumn {
+    float: left;
+	text-align: left;
+	height: 20px;
+    width: 10%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+       /* height: 50px; Should be removed. Only for demonstration */
+}
+
+.valueColumn {
+    float: left;
+	
+    width: 5%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+       /* height: 50px; Should be removed. Only for demonstration */
+}
+
+.gapColumn {
+    float: left;
+    width: 1%;
+    margin-top:0;
+	margin-bottom:0;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+       /* height: 50px; Should be removed. Only for demonstration */
+}
+
+.chartColumn {
+    float: left;
+     //width: 40%;
+	width: 45%;
+	height: 800;
+    margin-top: 0;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+    /* height: 100px;  Should be removed. Only for demonstration */
+}
+
+.gaugeColumn {
+    float: left;
+    width: 25%;
+	height: 800;
+    margin-top: 0;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 275px;
+	overflow: hidden;
+    /* height: 100px;  Should be removed. Only for demonstration */
+}
+
+.logoColumn {
+    float: left;
+    width: 26%;
+	height: 800;
+    margin-top: 0;
+	padding-left: 10px;
+	padding-top: 20px;
+	padding-bottom: 0px;
+	height: 130px;
+
+    /* height: 100px;  Should be removed. Only for demonstration */
+}
+
+.contactColumn {
+    float: left;
+    width: 14%;
+	height: 800;
+    margin-top: 0;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 275px;
+	
+    /* height: 100px;  Should be removed. Only for demonstration */
+}
+
+.row {
+     min-width: 1000px
+}
+
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+
+
+.redSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.redSlider:hover {
+    opacity: 1;
+}
+
+.redSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF5733;
+    cursor: pointer;
+}
+
+.redSlider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF5733;
+    cursor: pointer;
+}
+
+
+
+.purpleSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.purpleSlider:hover {
+    opacity: 1;
+}
+
+.purpleSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #581845;
+    cursor: pointer;
+}
+
+.purpleSlider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #581845;
+    cursor: pointer;
+}
+
+
+
+.cyanSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.cyanSlider:hover {
+    opacity: 1;
+}
+
+.cyanSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #00FFFF;
+    cursor: pointer;
+}
+
+.cyanSlider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #00FFFF;
+    cursor: pointer;
+}
+
+
+
+.pinkSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.pinkSlider:hover {
+    opacity: 1;
+}
+
+.pinkSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF1493;
+    cursor: pointer;
+}
+
+.pinkSlider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF1493;
+    cursor: pointer;
+}
+
+
+
+.orangeSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.orangeSlider:hover {
+    opacity: 1;
+}
+
+.orangeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF8C00;
+    cursor: pointer;
+}
+
+.orangeSlider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF8C00;
+    cursor: pointer;
+}
+
+
+#materialPerEventProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #00FFFF;
+}
+
+#materialPerYearProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #00FFFF;
+}
+
+#labourPerEventProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #581845;
+}
+
+#labourPerYearProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #581845;
+}
+
+#maintenancePerEventProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #FF1493;
+}
+
+#maintenancePerYearProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #FF1493;
+}
+
+#penaltyPerEventProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #FF8C00;
+}
+
+#penaltyPerYearProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #FF8C00;
+}
+
+#lostMarginPerEventProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #4CAF50;
+}
+
+#lostMarginPerYearProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #4CAF50;
+}
+
+#lostSalesPerEventProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #4CAF50;
+}
+
+#hoursProgress {
+  width: 0%;
+  height: 15px;
+  background-color: #4CAF50;
+}
+
+#progressBar {
+  width: 100%;
+  background-color: #ddd;
+}
+
+
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+  
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 100px;
+    background-color: black;
+    color: #fff;
+	font-size: 12px;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+	top: -10px;
+    left: 135%; 
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 35%;
+	min-width: 600px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+</style>
+
+</head>
+
+
+<body onload="loadPage()">
+
+
+<header>
+<h1 id="mainHeader">Active Voltage Conditioner (AVC) Payback Scenario</h1>
+<h2>Losses Due to Unplanned Production Stoppages</h2> 
+<!--<span id="pageInstructions" style="font-size:16px; height: 18px;">Click RTS Scenario to view payback scenario for an AVC Ride Through System.</span>-->
+</header>
+
+<!-- ROW 0: ADJUST MAX VALUES, IMPORT/EXPORT XML <br />  -->
+<div class="row">  
+	<!--<div class="parameterColumn" >-->
+    
+	<button id="changeMaxBtn" style="font-size:16px; height: 35px; color: blue;">Change Max Values</button>
+	
+	
+<!-- The Modal -->
+<div id="changeMaxModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h1>Change Max Values</h1>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Hours/Day Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" max = "24" value="24" step="1" name="hoursPerDayMaxBox" id="hoursPerDayMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Days/Week Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" max = "7" value="7" step="1" name="daysPerWeekMaxBox" id="daysPerWeekMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Weeks/Year Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" max = "52" value="52" step="1" name="weeksPerYearMaxBox" id="weeksPerYearMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Stoppages/Year Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="60" step="1" name="stoppagesPerYearMaxBox" id="stoppagesPerYearMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Resume Time (Hrs) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="20" step="1" name="resumeTimeMaxBox" id="resumeTimeMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	No. People Affected Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="500" step="1" name="peopleAffectedMaxBox" id="peopleAffectedMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Hrly Rate incl. Benefits ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="80" step="1" name="hourlyRateMaxBox" id="hourlyRateMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Lost Sales/Event ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="3000000" step="100000" name="lostSalesPerEventMaxBox" id="lostSalesPerEventMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Annual Sales ($ Million) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="2000" step="1" name="annualSalesMaxBox" id="annualSalesMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Gross Profit as % Sales (%) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="100" step="1" name="grossProfitMaxBox" id="grossProfitMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Cost kWh (¢) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="100" step="0.01" name="costKwhMaxBox" id="costKwhMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Material Cost/Event ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="300000" step="1000" name="materialCostPerEventMaxBox" id="materialCostPerEventMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Labor Cost/Event ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="200000" step="1000" name="labourCostPerEventMaxBox" id="labourCostPerEventMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Maintenance Cost/Event ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="500000" step="1000" name="maintenanceCostPerEventMaxBox" id="maintenanceCostPerEventMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+		
+	<div class="row">
+	<div class="modalColumn" >
+	Penalty Cost/Event ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="20000" step="1000" name="penaltyCostPerEventMaxBox" id="penaltyCostPerEventMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+			
+	<div class="row">
+	<div class="modalColumn" >
+	Lost Margin/Event ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="1500000" step="5000" name="lostMarginPerEventMaxBox" id="lostMarginPerEventMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Material Cost/Year ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="1000000" step="1000" name="materialCostPerYearMaxBox" id="materialCostPerYearMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Labor Cost/Year ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="500000" step="1000" name="labourCostPerYearMaxBox" id="labourCostPerYearMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="modalColumn" >
+	Maintenance Cost/Year ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="1000000" step="1000" name="maintenanceCostPerYearMaxBox" id="maintenanceCostPerYearMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+		
+	<div class="row">
+	<div class="modalColumn" >
+	Penalty Cost/Year ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="100000" step="1000" name="penaltyCostPerYearMaxBox" id="penaltyCostPerYearMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+			
+	<div class="row">
+	<div class="modalColumn" >
+	Lost Margin/Year ($) Max: 
+	</div>
+	<div class="modalInputBoxColumn" >
+	<input type="number" min = "0" value="3000000" step="5000" name="lostMarginPerYearMaxBox" id="lostMarginPerYearMaxField" style="font-size:18px;">	
+	</div>
+	</div>
+	
+	<div class="row" >
+	<p><p/>
+	</div>
+	
+	<div class="row" >
+	<button id="applyMaxChangesBtn" style="font-size:18px;height: 35px; color: blue;">Apply</button>
+	</div>
+	
+  <!--</div>-->
+	
+</div>
+
+	
+  </div>
+  
+  <!--<div class="parameterColumn" >-->
+  <input type="button" id="loadFileXml" value="Import XML" style="font-size:16px;height: 35px; color: blue;" onclick="document.getElementById('importFile').click();" />
+  <input name="importFile" id="importFile" type="file" accept="text/xml" style="Display:none;" >
+  
+  <!-- </div> -->
+	
+	<input type="button" id="exportFileXml" value="Export XML" style="font-size:16px;height: 35px; color: blue;" onclick="exportXMLFile()" />
+	<div id="downloadContainer" style="display:none;"></div>
+	<span style="display:inline-block; width: 150px; font-weight: bold; font-size: 18px; text-align: right; color: red; ">Mode Switch:</span>
+	<input type="button" id="switchModeBtnAVC" value="AVC Scenario" style="font-size:16px;height: 35px; color: blue;" onclick="switchMode()" />
+	<input type="button" id="switchModeBtnRTS" value="Blackout Scenario" style="font-size:16px;height: 35px; color: blue;" onclick="switchMode()" />
+	<p><p/>
+ 
+ 
+ </div> 
+ 
+<!-- ROW 1: HOURS/DAY, MATERIAL COST/EVENT -->
+<div class="row"> 
+  <div class="parameterColumn" >
+    Hours worked/day:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="24" value="0" class="slider" id="hoursPerDaySlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+	<div class="tooltip">
+		<span id="hoursPerDayLabel">0 &ensp; </span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+  <!-- middle column start  -->
+   <div class="parameterMiddleCategoryColumn">
+    Per Year
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    	
+  </div>
+  
+
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+
+ 
+ <!-- middle column end  -->
+ 
+  <div class="parameterColumn">
+    Material cost/event:
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="materialPerEventProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="materialCostPerEventLabel">$0</span>
+	
+  </div>
+  
+</div>
+
+
+<!-- ROW 2: DAYS/WEEK, LABOUR COST/EVENT -->
+<div class="row">
+  <div class="parameterColumn">
+    Days worked/week:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="7" value="0" class="slider" id="daysPerWeekSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     
+	<div class="tooltip">
+		<span id="daysPerWeekLabel">0 &ensp; </span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn">
+   Mtce cost from stoppages:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="1000000" step="1000" value="0" class="pinkSlider" id="maintenanceCostSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     
+	<div class="tooltip">
+		<span id="maintenanceCostLabel">$0</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+ 
+  
+  <div class="parameterColumn">
+    Labor cost/event: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="labourPerEventProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     
+	 <span id="labourCostPerEventLabel">$0</span>
+	
+  </div>
+  </div>
+  
+  <!-- ROW 3: WEEKS/YEAR, MAINTENANCE COST/EVENT -->
+<div class="row">
+  <div class="parameterColumn">
+    Weeks worked/year:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="52" value="0" class="slider" id="weeksPerYearSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     
+	<div class="tooltip">
+		<span id="weeksPerYearLabel">0 &ensp; </span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn">
+   Annual sales ($ Million):
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="2000000000" step="1000000" value="0" class="slider" id="annualSalesSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+    <div class="tooltip">
+		<span id="annualSalesLabel">$0</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterColumn">
+    Maintenance cost/event: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="maintenancePerEventProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="maintenanceCostPerEventLabel">$0</span>
+	
+  </div>
+  
+</div>
+
+
+ <!-- ROW 4: HOURS/YEAR, PENALTY COST/EVENT -->
+<div class="row">
+  <div class="parameterColumn">
+    Hours worked/year:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="hoursProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="hoursPerYearLabel">0</span>
+	 
+	
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+  <!-- middle column start  -->
+    <div class="parameterMiddleCategoryColumn">
+    Other Information
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    	
+  </div>
+  
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterColumn">
+    Penalty cost/event: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="penaltyPerEventProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="penaltyCostPerEventLabel">$0</span>
+	
+  </div>
+  
+</div>
+
+
+  <!-- ROW 5: STOPPAGES/YEAR, LOST MARGIN/EVENT -->
+<div class="row">
+  <div class="parameterColumn">
+    No. stoppages/year:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="60" value="0" class="redSlider" id="stoppagesPerYearSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+	<div class="tooltip">
+		 <span id="stoppagesPerYearLabel">0 &ensp; </span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn">
+   Gross profit as % sales:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="100" value="0" class="slider" id="grossProfitSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+    <div class="tooltip">
+		<span id="grossProfitLabel">0%</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterColumn">
+    Lost margin/event: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="lostMarginPerEventProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+ 	 <span id="lostMarginPerEventLabel">$0</span>
+	 
+	
+  </div>
+  
+</div>
+
+
+  <!-- ROW 6: PER EVENT, COST/EVENT -->
+<div class="row">
+  <div class="parameterCategoryColumn">
+    Per Event
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    <p></p>
+	
+  </div>
+  
+  <div class="valueColumn">
+     <p></p>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn">
+   Cost kWh (¢):
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="1" step="0.01" value="0" class="slider" id="costKwhSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+	<div class="tooltip">
+		<span id="costKwhLabel">0.00¢</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterBoldColumn">
+    Cost Per Event: 
+	
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    <span id="costPerEvent">$0</span>
+  </div>
+  
+  <div class="valueColumn">
+     
+  </div>
+  
+</div>
+
+
+<!-- ROW 7: HOURS TO RESUME, MATERIAL COST/YEAR -->
+<div class="row"> 
+  <div class="parameterColumn" >
+    Time hrs to resume:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="20" value="0" step="0.25" class="slider" id="resumeTimeSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+	<div class="tooltip">
+		<span id="resumeTimeLabel">0 &ensp; </span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleCategoryColumn" >
+    Investment Return
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    	
+  </div>
+  
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterColumn">
+    Material cost/year:
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="materialPerYearProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="materialCostPerYearLabel">$0</span>
+	
+  </div>
+  
+</div>
+
+
+<!-- ROW 8: PEOPLE AFFECTED, LABOUR COST/YEAR -->
+<div class="row">
+  <div class="parameterColumn">
+    No. people affected:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="500" value="0" class="purpleSlider" id="peopleAffectedSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+	<div class="tooltip">
+		<span id="peopleAffectedLabel">0 &ensp; </span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn" id="avcCostTitle">
+	 AVC Cost:
+  </div>
+  
+  <div class="sliderProgressReplacementColumn" >
+      <div class="tooltip">
+		<span id="capitalCostLabel" style="font-weight:bold; color: blue;" >$0 (Enter Value)</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	 	
+	  </div>
+	<!-- $<input type="number" min = "0" step="5000" value="0" name="capitalCost" id="capitalCostField" style="font-size:18px; font-family: Arial, Helvetica, sans-serif; width:60%; border:none;">	
+-->  
+  </div>
+  
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterColumn">
+    Labor cost/year: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="labourPerYearProgress"></div>
+	</div>
+
+  </div>
+  
+  <div class="valueColumn">
+     <span id="labourCostPerYearLabel">$0</span>
+  </div>
+</div>
+    
+    <!-- ROW 9: HOURLY RATE, MAINTENANCE COST/YEAR -->
+<div class="row">
+  <div class="parameterColumn">
+    Hrly rate incl benefits:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="80" value="0" class="purpleSlider" id="hourlyRateSlider">
+	</div>
+	
+  </div>
+  
+  <div class="valueColumn">
+    <div class="tooltip">
+		<span id="hourlyRateLabel">$0</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn" >
+    Installation Cost (% of AVC Cost):
+  </div>
+  
+  <div class="sliderProgressReplacementColumn" >
+    
+	<div class="tooltip">
+		<span id="installationCostLabel"style="font-weight:bold; color: blue;" >$0</span>	
+		<span class="tooltiptext">Double click to change % AVC Cost.</span>
+	</div>
+	
+  </div>
+  
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterColumn">
+    Maintenance cost/year: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="maintenancePerYearProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="maintenanceCostPerYearLabel">$0</span>
+	
+  </div>
+  
+</div>
+
+
+<!-- ROW 10: COST OF MATERIAL, PENALTY COST/YEAR -->
+<div class="row">
+  <div class="parameterColumn">
+    Cost of material:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="300000" step="5000" value="0" class="cyanSlider" id="materialCostSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+    <div class="tooltip">
+		<span id="materialCostLabel">$0</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+	
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn" id="avcKvaRatingTitle">
+    AVC kVA Rating:
+  </div>
+  
+  <div class="sliderProgressReplacementColumn" style="font-weight:bold; color: blue;">
+    	 &nbsp <input type="number" name="avcRating" id="avcRatingField" value="0" min="0" step="10" style="font-size:18px; font-family: Arial, Helvetica, sans-serif; width:45%; border:none; font-weight:bold; color: blue;" onkeydown="kvaEnter()" >kVA
+  </div>
+  
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+ 
+  <div class="parameterColumn">
+    Penalty cost/year: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="penaltyPerYearProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+    <span id="penaltyCostPerYearLabel">$0</span>
+  </div>
+  
+</div>
+
+
+<!-- ROW 11: PENALTY COST, LOST MARGIN/YEAR -->
+<div class="row">
+  <div class="parameterColumn">
+   Penalty cost:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div class="""slidecontainer">
+		<input type="range" min="0" max="20000" step="1000" value="0" class="orangeSlider" id="penaltyCostSlider">
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <div class="tooltip">
+		<span id="penaltyCostLabel">$0</span>
+		<span class="tooltiptext">Double click to enter value.</span>
+	</div>
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+   <div class="parameterMiddleColumn" style="opacity: 0;" >
+    -
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    	
+  </div>
+  
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterColumn">
+    Lost margin/year: 
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="lostMarginPerYearProgress"></div>
+	</div>
+	
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="lostMarginPerYearLabel">$0</span>
+	
+  </div>
+  
+</div>
+
+
+<!-- ROW 12: LOST SALES/EVENT, COST/YEAR -->
+<div class="row">
+  <div class="parameterColumn">
+   Lost sales/event:
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    
+	<div id="progressBar">
+	<div id="lostSalesPerEventProgress"></div>
+	</div>
+	
+  </div>
+  
+  <div class="valueColumn">
+     <span id="lostSalesPerEventLabel">$0</span>
+	
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+  
+    <!-- middle column start  -->
+    <div class="parameterMiddleColumn" style="opacity: 0;" >
+    -
+  </div>
+  
+  <div class="sliderProgressColumn" >
+    	
+  </div>
+  
+  <div class="valueColumn">
+    
+  </div>
+  
+  <div class="gapColumn">
+     <p></p>
+  </div>
+ 
+ <!-- middle column end  -->
+  
+  <div class="parameterBoldColumn">
+    Cost Per Year: 
+	
+  </div>
+  
+  <div class="smallerProgressColumn" >
+    <span id="costPerYear">$0</span>
+  </div>
+  
+  <div class="valueColumn">
+     
+  </div>
+  
+</div>
+
+<div class="row">
+  <div class="chartColumn" >
+	<!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
+	<div id="chart_div"></div>
+	
+	<!--<script type="text/javascript" src="gChart.js"></script> -->
+	
+  </div>
+
+ 
+ <div class="gaugeColumn" >
+	<div id="gauge1"></div>
+	<div id="gaugeReplacementMsg" style="display:none; font-size:16px;"><br /><br />Please enter AVC cost to see payback and IRR gauges.</div>
+	 <!--<span id="paybackInMonthsLabel">0</span> -->
+	
+ </div>
+ 
+  <div class="gaugeColumn" >
+	<div id="gauge2"></div>
+	
+ </div> 
+ 
+ <div class="gapColumn" style="opacity:0">
+ -
+  </div>
+   <div class="gapColumn" style="opacity:0">
+ -
+  </div>
+  
+<div class="logoColumn" style="text-align:right">
+ <img src="OmniverterLogo.png" alt="Omniverter" style="max-width: 100%; max-height: 100%;"> 
+ </div>
+ 
+
+ <div class="contactColumn" >
+ <div style="font-size:16px; text-align:right;"><br />3075, 14th Avenue, Unit 13<br />Markham Ontario L3R 0G9 Canada<br />Canada: 416-849-2299<br />USA: 440 290 4499<br />Email: info@omniverter.com<br />www.omniverter.com</div>
+ </div>
+ 
+ <script src="sliders.js"></script>
+ 
+ </div>
+ 
+	</body>
+</html>
